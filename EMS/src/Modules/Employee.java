@@ -8,6 +8,13 @@ public class Employee {
     private Role empRole;
     private Double empSalary;
 
+    public Employee(Integer empId, String empName, Role empRole, Double empSalary) {
+        this.empId = empId;
+        this.empName = empName;
+        this.empRole = empRole;
+        this.empSalary = empSalary;
+    }
+
     public int getEmpId() {
         return empId;
     }

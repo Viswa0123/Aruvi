@@ -1,7 +1,8 @@
 package Services;
 
 import DataCollection.EmployeeDataCollect;
-import DataPrint.EmployeeDataPrint;
+import Enums.Role;
+import Print.EmployeeDataPrint;
 import Modules.Employee;
 
 import java.util.ArrayList;
@@ -9,42 +10,89 @@ import java.util.List;
 
 public class EmployeeServices {
     private static final List<Employee> employees = new ArrayList<>();
-    private final EmployeeDataCollect employeeDataCollect = new EmployeeDataCollect();
-    private final EmployeeDataPrint employeeDataPrint = new EmployeeDataPrint();
-    private static Integer empIds = 0;
+    private final EmployeeDataCollect dataCollect = new EmployeeDataCollect();
+    private final EmployeeDataPrint dataPrint = new EmployeeDataPrint();
+    private static Integer empIds = 1;
 
     public void addEmployee() {
-        Employee emp = employeeDataCollect.getData();
-        emp.setEmpId(++empIds);
-        employees.add(emp);
+        String name = dataCollect.getName();
+        Role role = dataCollect.getRole();
+        double salary = dataCollect.getSalary();
+        employees.add(new Employee(empIds++, name, role, salary));
+        dataPrint.printAddSuccess();
     }
 
     public void viewEmployee() {
-        List<Employee> employees = employeeDataCollect.getViewData(EmployeeServices.getEmployees());
-        employeeDataPrint.printEmployees(employees);
+        int n = dataCollect.getViewData();
+        List<Employee> employees = new ArrayList<>();
+        switch (n) {
+            case 1:
+                Role role = dataCollect.getRole();
+                getEmployeeByRole(role, employees);
+                break;
+            case 2:
+                double salaryLessThan = dataCollect.getSalary();
+                getEmployeeSalaryLessThan(salaryLessThan, employees);
+                break;
+            case 3:
+                double salaryGreaterThan = dataCollect.getSalary();
+                getEmployeeSalaryGreaterThan(salaryGreaterThan, employees);
+                break;
+            case 4:
+                int id = dataCollect.getEmpId();
+                employees.add(getEmployeeById(id));
+                break;
+            default:
+                System.out.println("Invalid Input");
+        }
+        dataPrint.printEmployees(employees);
+    }
+
+    private void getEmployeeSalaryLessThan(double salary, List<Employee> emps) {
+        for (Employee employee : employees) {
+            if (salary >= employee.getEmpSalary()) {
+                emps.add(employee);
+            }
+        }
+    }
+
+    private void getEmployeeSalaryGreaterThan(double salary, List<Employee> emps) {
+        for (Employee employee : employees) {
+            if (salary >= employee.getEmpSalary()) {
+                emps.add(employee);
+            }
+        }
     }
 
     public void delete() {
-        int empId = employeeDataCollect.getEmpId();
-        int flag = 0;
-        for (int i = 0; i < employees.size(); i++) {
-            Employee employee = employees.get(i);
-            if (empId == employee.getEmpId()) {
-                flag = 1;
-                employees.remove(employee);
-            }
-            if (flag == 1) {
-                break;
-            }
+        int empId = dataCollect.getEmpId();
+        Employee employee = getEmployeeById(empId);
+        if (employee != null) {
+            employees.remove(employee);
+            dataPrint.printDeleteSuccess();
+        } else {
+            dataPrint.printEmployeeNotFound();
         }
-        employeeDataPrint.getDeleteSuccess();
     }
 
     public void viewAllEmployees() {
-        employeeDataPrint.printEmployees(employees);
+        dataPrint.printEmployees(employees);
     }
 
-    private static List<Employee> getEmployees() {
-        return employees;
+    private static Employee getEmployeeById(int empId) {
+        for (Employee employee : employees) {
+            if (empId == employee.getEmpId()) {
+                return employee;
+            }
+        }
+        return null;
+    }
+
+    private static void getEmployeeByRole(Role role, List<Employee> emps) {
+        for (Employee employee : employees) {
+            if (role == employee.getEmpRole()) {
+                emps.add(employee);
+            }
+        }
     }
 }

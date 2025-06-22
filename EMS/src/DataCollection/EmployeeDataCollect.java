@@ -1,45 +1,41 @@
 package DataCollection;
 
-import DataPrint.EmployeeDataPrint;
+import Print.EmployeeDataPrint;
 import Enums.Role;
-import Modules.Employee;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class EmployeeDataCollect {
     private final Scanner in = new Scanner(System.in);
-    private final EmployeeDataPrint employeeDataPrint = new EmployeeDataPrint();
+    private final EmployeeDataPrint dataPrint = new EmployeeDataPrint();
 
-    public Employee getData() {
-        Employee emp = new Employee();
-
-        employeeDataPrint.getName();
-        emp.setEmpName(in.next());
-
-        employeeDataPrint.getRole();
-        int role = in.nextInt();
-        if (role == 0) {
-            emp.setEmpRole(Role.MANAGER);
-        } else {
-            emp.setEmpRole(Role.EMPLOYEE);
-        }
-
-        employeeDataPrint.getSalary();
-        emp.setEmpSalary(in.nextDouble());
-
-        employeeDataPrint.getAddSuccess();
-        return emp;
+    public String getName(){
+        dataPrint.printGetName();
+        return in.next();
     }
 
-    public List<Employee> getViewData(List<Employee> emps) {
-        List<Employee> employees = new ArrayList<>();
-        return employees;
+    public Role getRole(){
+        dataPrint.printGetRole();
+        int role = in.nextInt();
+        if (role == 0) {
+            return Role.MANAGER;
+        } else {
+            return Role.EMPLOYEE;
+        }
+    }
+
+    public double getSalary(){
+        dataPrint.printGetSalary();
+        return in.nextDouble();
+    }
+
+    public int getViewData() {
+        dataPrint.printFilter();
+        return in.nextInt();
     }
 
     public int getEmpId() {
-        employeeDataPrint.getId();
+        dataPrint.printGetId();
         return in.nextInt();
     }
 }
