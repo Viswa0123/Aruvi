@@ -1,9 +1,10 @@
-import Services.EmployeeServices;
+import ServiceImp.EmployeeServicesImp;
+import Service.EmployeeService;
 
 import java.util.Scanner;
 
 public class Main {
-    private static final EmployeeServices employeeServices = new EmployeeServices();
+    private static final EmployeeService employeeService = new EmployeeServicesImp();
 
     public static void main(String[] args) {
         System.out.println("**************** Welcome To Employee Management System ****************");
@@ -23,16 +24,16 @@ public class Main {
             n = in.nextInt();
             switch (n) {
                 case 1:
-                    employeeServices.addEmployee();
+                    employeeService.addEmployee();
                     break;
                 case 2:
-                    employeeServices.viewEmployee();
+                    employeeService.viewEmployee();
                     break;
                 case 3:
-                    employeeServices.delete();
+                    employeeService.delete();
                     break;
                 case 4:
-                    employeeServices.viewAllEmployees();
+                    employeeService.viewAllEmployees();
                     break;
             }
             System.out.println();

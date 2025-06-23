@@ -1,14 +1,16 @@
-package Services;
+package ServiceImp;
 
 import DataCollection.EmployeeDataCollect;
 import Enums.Role;
 import Print.EmployeeDataPrint;
 import Modules.Employee;
+import Service.EmployeeService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeServices {
+public class EmployeeServicesImp implements EmployeeService {
+
     private static final List<Employee> employees = new ArrayList<>();
     private final EmployeeDataCollect dataCollect = new EmployeeDataCollect();
     private final EmployeeDataPrint dataPrint = new EmployeeDataPrint();
@@ -42,26 +44,8 @@ public class EmployeeServices {
                 int id = dataCollect.getEmpId();
                 employees.add(getEmployeeById(id));
                 break;
-            default:
-                System.out.println("Invalid Input");
         }
         dataPrint.printEmployees(employees);
-    }
-
-    private void getEmployeeSalaryLessThan(double salary, List<Employee> emps) {
-        for (Employee employee : employees) {
-            if (salary >= employee.getEmpSalary()) {
-                emps.add(employee);
-            }
-        }
-    }
-
-    private void getEmployeeSalaryGreaterThan(double salary, List<Employee> emps) {
-        for (Employee employee : employees) {
-            if (salary >= employee.getEmpSalary()) {
-                emps.add(employee);
-            }
-        }
     }
 
     public void delete() {
@@ -91,6 +75,22 @@ public class EmployeeServices {
     private static void getEmployeeByRole(Role role, List<Employee> emps) {
         for (Employee employee : employees) {
             if (role == employee.getEmpRole()) {
+                emps.add(employee);
+            }
+        }
+    }
+
+    private void getEmployeeSalaryLessThan(double salary, List<Employee> emps) {
+        for (Employee employee : employees) {
+            if (salary >= employee.getEmpSalary()) {
+                emps.add(employee);
+            }
+        }
+    }
+
+    private void getEmployeeSalaryGreaterThan(double salary, List<Employee> emps) {
+        for (Employee employee : employees) {
+            if (salary >= employee.getEmpSalary()) {
                 emps.add(employee);
             }
         }
