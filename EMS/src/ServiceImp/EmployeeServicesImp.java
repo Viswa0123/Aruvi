@@ -16,6 +16,7 @@ public class EmployeeServicesImp implements EmployeeService {
     private final EmployeeDataPrint dataPrint = new EmployeeDataPrint();
     private static Integer empIds = 1;
 
+    @Override
     public void addEmployee() {
         String name = dataCollect.getName();
         Role role = dataCollect.getRole();
@@ -24,6 +25,7 @@ public class EmployeeServicesImp implements EmployeeService {
         dataPrint.printAddSuccess();
     }
 
+    @Override
     public void viewEmployee() {
         int n = dataCollect.getViewData();
         List<Employee> employees = new ArrayList<>();
@@ -48,6 +50,7 @@ public class EmployeeServicesImp implements EmployeeService {
         dataPrint.printEmployees(employees);
     }
 
+    @Override
     public void delete() {
         int empId = dataCollect.getEmpId();
         Employee employee = getEmployeeById(empId);
@@ -59,6 +62,7 @@ public class EmployeeServicesImp implements EmployeeService {
         }
     }
 
+    @Override
     public void viewAllEmployees() {
         dataPrint.printEmployees(employees);
     }
